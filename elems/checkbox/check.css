@@ -1,0 +1,60 @@
+.check-label {
+  display: block;
+  min-height: 16px;
+  position: relative;
+  padding-left: 21px;
+  color: #4d5f71;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.check-checkbox{
+  box-sizing: border-box;
+  padding: 0;
+  opacity: 0;
+  margin: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.check_checkmark{
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #005bff;
+  border-radius: 2px;
+}
+
+.check_checkmark:after{
+  display: none;
+  width: 23px;
+  height: 22px;
+  position: absolute;
+  top: -7px;
+  left: -1px;
+  content: "";
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9JyMwMDViZmYnIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTkgMjEuMDM1bC05LTguNjM4IDIuNzkxLTIuODcgNi4xNTYgNS44NzQgMTIuMjEtMTIuNDM2IDIuODQzIDIuODE3eiIvPjwvc3ZnPg==);
+  background-size: contain;
+  background-repeat: no-repeat;
+
+}
+
+.check_checkmark.checked:after{
+  display: block;
+}
+.check_label-text {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 100%;
+  margin-top: 1px;
+  box-sizing: border-box;
+}

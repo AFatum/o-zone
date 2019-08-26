@@ -40,7 +40,7 @@ function toggleCart() {
   })
 }; // end корзина
 
-// Работа с товаром
+// Работа с товаром, добавление в корзину
 function addCart() {
   const cards = document.querySelectorAll('.goods .card'),
     cartWrapper = document.querySelector('.cart-wrapper'),
@@ -65,12 +65,12 @@ function addCart() {
 
   function showData() {
     const cardsCart = cartWrapper.querySelectorAll('.card'),
-      cardPrice = cartWrapper.querySelectorAll('.card-price'),
+      cardsPrices = cartWrapper.querySelectorAll('.card-price'),
       cardTotal = document.querySelector('.cart-total span');
 
     countGoods.textContent = cardsCart.length;
     let sum = 0;
-    cardPrice.forEach(price => {
+    cardsPrices.forEach(price => {
       let cardPrice = parseFloat(price.textContent);
       sum += cardPrice;
     });
@@ -79,7 +79,7 @@ function addCart() {
     if (cardsCart.length === 0) cartWrapper.appendChild(cartEmpty);
     else cartEmpty.remove();
   }
-} // end Работа с товаром
+} // end Работа с товаром, добавление в корзину
 
 // события на кнопки фильтр
 function actionPage(){
@@ -121,8 +121,6 @@ function filterCards() {
         card.parentNode.style.display = 'none';
       else card.parentNode.style.display = '';
   });
-
-
 }; // end фильтр карточек товаров
 
 // получение данных с сервера
@@ -210,7 +208,6 @@ function renderCloseCategory() {
 
   category.addEventListener('click', () => {
     liActive.classList.remove('active');
-    liActive = false;
     category.remove();
     filterCards();
   })
@@ -219,7 +216,7 @@ function renderCloseCategory() {
     category.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="10" viewBox="0 0 24 24" fill="white"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg><span>${liActive.textContent}</span>`;
     category.className = 'category-active';
     filterTitle.appendChild(category);
-  } else if(filterTitle.contains(category)) category.remove();
+  }
 } // end рендерим кнопку сброса фильтра категорий
 
 
@@ -233,4 +230,5 @@ getData().then(data => {
 });
 
 
+// webpack рассматривают 45:00тзь (1:40:00)
 // закончили на 56:37 (1:40:00)

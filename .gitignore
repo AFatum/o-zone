@@ -3,4 +3,4 @@ package-lock.json
 .jshintrc
 index_backup.html
 /elems/
-src/modules/index_backup.js
+src/index_backup.js

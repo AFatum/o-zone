@@ -1,0 +1,15 @@
+{
+  "name": "workshop-o-zone",
+  "version": "1.0.0",
+  "description": "my for workshop o-zone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tony",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
+  }
+}

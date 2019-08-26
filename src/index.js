@@ -81,43 +81,49 @@ function addCart() {
   }
 } // end Работа с товаром
 
-// фильтр акции
+// события на кнопки фильтр
 function actionPage(){
 
   const cards = document.querySelectorAll('.goods .card'),
     discountCheckbox = document.getElementById('discount-checkbox'),
     min = document.getElementById('min'),
     max = document.getElementById('max'),
-    search = document.querySelector('.search-wrapper_input'),
     searchBtn = document.querySelector('.search-btn');
-
-  function filterCards() {
-    const searchValue = new RegExp(search.value.trim(), 'i');
-
-    cards.forEach(card => {
-      const price = parseFloat(card.querySelector('.card-price').textContent),
-/*      cardText = card.querySelector('.card-title').textContent.toLowerCase(),
-        searchText = search.value.toLowerCase(), 
-        isSearch = !!(search.value && !~cardText.indexOf(searchText)); */
-        cardText = card.querySelector('.card-title').textContent,
-        isMin = !!(min.value && min.value > price),
-        isMax = !!(max.value && max.value < price),
-        isDiscount = !!(discountCheckbox.checked && !card.querySelector('.card-sale')),
-        isSearch = !!(!searchValue.test(cardText));
-        
-        if(isMin || isMax || isDiscount || isSearch)
-          card.parentNode.style.display = 'none';
-        else card.parentNode.style.display = '';
-    });
-  };
 
   min.addEventListener('change', filterCards);
   max.addEventListener('change', filterCards);
   discountCheckbox.addEventListener('change', filterCards);
   searchBtn.addEventListener('click', filterCards);
-};
+}; // end события на кнопки фильтр
 
-// end фильтр акции
+// фильтр карточек товаров
+function filterCards() {
+  const search = document.querySelector('.search-wrapper_input'),
+    cards = document.querySelectorAll('.goods .card'),
+    discountCheckbox = document.getElementById('discount-checkbox'),
+    min = document.getElementById('min'),
+    max = document.getElementById('max'),
+    liActive = document.querySelector('.catalog-list li.active'),
+    searchValue = new RegExp(search.value.trim(), 'i');
+
+  cards.forEach(card => {
+    const price = parseFloat(card.querySelector('.card-price').textContent),
+      cardText = card.querySelector('.card-title').textContent,
+      cardCategory = card.dataset.category,
+
+      isMin = !!(min.value && min.value > price),
+      isMax = !!(max.value && max.value < price),
+      isDiscount = !!(discountCheckbox.checked && !card.querySelector('.card-sale')),
+      isSearch = !!(!searchValue.test(cardText)),
+      isCategory = !!(liActive && liActive.textContent !== cardCategory);
+      
+      if(isMin || isMax || isDiscount || isSearch || isCategory)
+        card.parentNode.style.display = 'none';
+      else card.parentNode.style.display = '';
+  });
+
+
+}; // end фильтр карточек товаров
 
 // получение данных с сервера
 function getData(){
@@ -134,8 +140,7 @@ function getData(){
       console.warn(err);
       goodsWrapper.innerHTML = `<div style="color: red; font-size: 1.5em">Упс, не получили данные от сервера.<br>${err}</div>`;
     });  
-};
-// end получение данных с сервера
+}; // end получение данных с сервера
 
 // рендеринг карт товаров
 function renderCards({goods}) {
@@ -146,7 +151,7 @@ function renderCards({goods}) {
 
     card.className = 'col-12 col-md-6 col-lg-4 col-xl-3';
     card.innerHTML = `
-                <div class="card" data-category = ${category}>
+                <div class="card" data-category = "${category}">
                 ${(sale) ? '<div class="card-sale">🔥Hot Sale🔥</div>' : ''}
 									<div class="card-img-wrapper">
 										<span class="card-img-top"
@@ -160,11 +165,9 @@ function renderCards({goods}) {
                 </div> `;
     goodsWrapper.appendChild(card);
   });
-}
-// end рендеринг карт товаров
+}; // end рендеринг карт товаров
 
 // рендер каталога
-
 function renderCatalog() {
  const cards = document.querySelectorAll('.goods .card'),
   catalogList = document.querySelector('.catalog-list'),
@@ -172,9 +175,7 @@ function renderCatalog() {
   catalogWrapper = catalogBtn.querySelector('.catalog'),
   categories = new Set();
  
- cards.forEach(card => {
-   categories.add(card.dataset.category);
- });
+ cards.forEach(card => { categories.add(card.dataset.category); });
 
  categories.forEach(item => {
    const li = document.createElement('li');
@@ -183,31 +184,52 @@ function renderCatalog() {
  });
 
  catalogBtn.addEventListener('click', (event) => {
+  const allLi = document.querySelectorAll('.catalog-list li');
+
   catalogWrapper.style.display = (!catalogWrapper.style.display) ? 'block' : '';
   
   if(event.target.tagName === "LI"){
-    cards.forEach(card => {
-      (card.dataset.category !== event.target.textContent)
-        ? card.parentNode.style.display = 'none'
-        : card.parentNode.style.display = '';
-
-    })
+    for(const li of allLi){
+      (event.target === li) 
+        ? li.classList.add('active')
+        : li.classList.remove('active');
+    }
   }
-  
- })
-}
+  renderCloseCategory();
+  filterCards();
+ });
+}; // end рендер каталога
 
-// end рендер каталога
+// рендерим кнопку сброса фильтра категорий
+function renderCloseCategory() {
+  const filterTitle = document.querySelector('.filter-title'),
+    category = (!filterTitle.querySelector('.category-active'))
+    ? document.createElement('div')
+    : filterTitle.querySelector('.category-active');
+  let liActive = document.querySelector('.catalog-list li.active');
 
+  category.addEventListener('click', () => {
+    liActive.classList.remove('active');
+    liActive = false;
+    category.remove();
+    filterCards();
+  })
+
+  if(liActive) {
+    category.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="10" viewBox="0 0 24 24" fill="white"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg><span>${liActive.textContent}</span>`;
+    category.className = 'category-active';
+    filterTitle.appendChild(category);
+  } else if(filterTitle.contains(category)) category.remove();
+} // end рендерим кнопку сброса фильтра категорий
 
 
 getData().then(data => {
   renderCards(data);
+  renderCatalog();
   toggleCheckbox();
   toggleCart();
   addCart();
   actionPage();
-  renderCatalog();
 });
 
 

@@ -2,15 +2,7 @@
 export default function getData(){
   const goodsWrapper = document.querySelector('.goods');
   
-  //return fetch('./db/db.json')
-  //return fetch('https://afatum.github.io/o-zone/db/db.json')
-  //return fetch('o-zone/db/db.json')
-  return fetch('../../o-zone/db/db.js')
-  //return fetch('./o-zone/db/db.json')
-  //return fetch('afatum.github.io/o-zone/db/db.json')
-  //return fetch('../../ozone/db/db.jsongit ')
-  //return fetch('./db/db.json')
-  //fetch('https://jsonplaceholder.typicode.com/todos')
+  return fetch('https://my-json-server.typicode.com/AFatum/ozone-server/db', {mode: 'cors'})
     .then(response => {
       if(response.ok){
         return response.json();

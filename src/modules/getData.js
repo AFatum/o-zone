@@ -2,7 +2,8 @@
 export default function getData(){
   const goodsWrapper = document.querySelector('.goods');
   
-  return fetch('../db/db.json')
+  return fetch('https://afatum.github.io/o-zone/db/db.json')
+  //return fetch('../dbb/db.json')
   //fetch('https://jsonplaceholder.typicode.com/todos')
     .then(response => {
       if(response.ok){

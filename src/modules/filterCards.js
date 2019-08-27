@@ -20,7 +20,9 @@ export default function filterCards() {
       isCategory = !!(liActive && liActive.textContent !== cardCategory);
       
       if(isMin || isMax || isDiscount || isSearch || isCategory)
-        card.parentNode.style.display = 'none';
-      else card.parentNode.style.display = '';
+        //card.parentNode.style.display = 'none';
+        card.parentNode.hidden = true;
+      //else card.parentNode.style.display = '';
+      else card.parentNode.hidden = false;
   });
 }; // end фильтр карточек товаров

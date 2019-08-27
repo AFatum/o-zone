@@ -3,8 +3,6 @@ export default function getData(){
   const goodsWrapper = document.querySelector('.goods');
   
   return fetch('https://my-json-server.typicode.com/AFatum/ozone-server/db', {mode: 'cors'})
-  //return fetch('../db/db.json')
-  //fetch('https://jsonplaceholder.typicode.com/todos')
     .then(response => {
       if(response.ok){
         return response.json();

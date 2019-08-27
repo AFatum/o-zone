@@ -2,8 +2,11 @@
 export default function getData(){
   const goodsWrapper = document.querySelector('.goods');
   
-  //return fetch('https://afahnptum.github.io/o-zone/db/db.json')
-  return fetch('../db/db.json')
+  //return fetch('./db/db.json')
+  //return fetch('https://afatum.github.io/o-zone/db/db.json')
+  //return fetch('o-zone/db/db.json')
+  return fetch('../../ozone/db/db.json')
+  //return fetch('./db/db.json')
   //fetch('https://jsonplaceholder.typicode.com/todos')
     .then(response => {
       if(response.ok){
